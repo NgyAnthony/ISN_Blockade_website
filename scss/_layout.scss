@@ -25,10 +25,6 @@ body{
   justify-content: center;
 }
 
-.container div{
-  flex: 1;
-}
-
 .box_contents {
   padding-left: 10%;
   padding-right: 10%;
@@ -39,6 +35,7 @@ body{
 .bottom{
   align-self: flex-end;
 }
+
 
 /* Align text */
 .text-center{
@@ -61,6 +58,7 @@ ul li img{
   width: 80px; /* you can use % */
   height: auto;
 }
+
 
 /* Vertical line */
 .vr {

@@ -21,9 +21,6 @@ body {
 .center-content {
   justify-content: center; }
 
-.container div {
-  flex: 1; }
-
 .box_contents {
   padding-left: 10%;
   padding-right: 10%;
