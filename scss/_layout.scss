@@ -1,0 +1,68 @@
+html{
+  height: 100%;
+}
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+
+/* Write html over canvas */
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.container{
+  display: flex;
+}
+
+.center-content{
+  justify-content: center;
+}
+
+.container div{
+  flex: 1;
+}
+
+.box_contents {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 20%;
+  transform: translateY(10%);
+}
+
+.bottom{
+  align-self: flex-end;
+}
+
+/* Align text */
+.text-center{
+  text-align: center;
+}
+
+/* Remove style and padding from a list */
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+/* Set horizontal list */
+#social ul li{
+  display: inline-block;
+}
+
+/* Resize images in list */
+ul li img{
+  width: 80px; /* you can use % */
+  height: auto;
+}
+
+/* Vertical line */
+.vr {
+  border-right:1px solid #021a40;
+}

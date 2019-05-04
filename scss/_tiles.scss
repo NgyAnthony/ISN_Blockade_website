@@ -1,0 +1,21 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+#container_list{
+  padding:0;
+  margin:0;
+  list-style:none;
+  height: 110px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+#container_list li{
+  display:inline-block;
+  width:100px;
+  height:100px;
+  margin:5px;
+}
+#container_list li img{
+  width:100px;
+  height:100px;
+}

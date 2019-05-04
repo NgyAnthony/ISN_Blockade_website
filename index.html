@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <title>Blockade</title>
+</head>
+<body>
+
+<div id="overlayer"></div>
+    <span class="loader">
+    <span class="loader-inner"></span>
+</span>
+
+<div id="canvas-wrap">
+    <canvas id="canvas" width="100%" height="100%"></canvas>
+    <div class="overlay">
+        <div class="container center-content" id="main_title">
+            <a>Blockade</a>
+        </div>
+        <div>
+            <ul class="smaller-img" id="container_list">
+                <li><img src="img/tiles/1.png" /></li>
+                <li><img src="img/tiles/2.png" /></li>
+                <li><img src="img/tiles/3.png" /></li>
+                <li><img src="img/tiles/4.png" /></li>
+                <li><img src="img/tiles/5.png" /></li>
+                <li><img src="img/tiles/6.png" /></li>
+                <li><img src="img/tiles/7.png" /></li>
+                <li><img src="img/tiles/8.png" /></li>
+                <li><img src="img/tiles/9.png" /></li>
+                <li><img src="img/tiles/10.png" /></li>
+                <li><img src="img/tiles/11.png" /></li>
+                <li><img src="img/tiles/12.png" /></li>
+                <li><img src="img/tiles/13.png" /></li>
+                <li><img src="img/tiles/14.png" /></li>
+                <li><img src="img/tiles/15.png" /></li>
+                <li><img src="img/tiles/16.png" /></li>
+                <li><img src="img/tiles/17.png" /></li>
+                <li><img src="img/tiles/18.png" /></li>
+                <li><img src="img/tiles/19.png" /></li>
+                <li><img src="img/tiles/20.png" /></li>
+            </ul>
+        </div>
+
+        <div class="container center-content space-between" style="height: 90vh; padding: 20vh" id="social">
+            <ul class="bottom smaller-img">
+                <li class="vr" style="padding-right: 2vw">
+                    <a href="https://github.com/NgyAnthony">
+                        <img src="img/social/github.png" />
+                    </a>
+                </li>
+                <li style="padding-left: 2vw">
+                    <a href="http://lyceecharliechaplin.com">
+                        <img src="img/social/chaplin.png"/>
+                    </a>
+                </li>
+            </ul>
+            <button type="button" class="scroll_down" id="scroll_down"></button>
+        </div>
+    </div>
+
+    <div class="report" id="smooth_scroll">
+        <h1>Rapport de développement de projet final - ISN 2019</h1>
+        <h2>Crédits</h2>
+        <hr>
+        <h3>Développeur : NGUYEN Anthony</h3>
+        <h3>Designer : u/elheber</h3>
+
+        <h2>Préambule</h2>
+        <hr>
+        <p>Blockade est un prototype conçu pour le projet d'ISN de fin d'année 2019. <br>
+            Toute la progression du jeu peut être suivie dans "Commits". <br>
+            Le jeu et le code sont entièrement en anglais afin de respecter un assignement constant des variables. <br>
+            Environnement : Ce jeu a été crée sous macOS Mojave(10.14.4 (18E226)),
+            il est probable que des bugs soient présents sous Windows.<br>
+        </p>
+        <img src="https://i.imgur.com/mPBBeFC.png">
+
+        <h2>Nécéssaire:</h2>
+        <hr>
+        <h3>Global:</h3>
+        <ul>
+            <li>Python 3.0+</li>
+            <li>Pygame</li>
+            <li>sys</li>
+            <li>os</li>
+            <li>webbrowser</li>
+            <li>random</li>
+            <li>numpy</li>
+        </ul>
+        <h3>Serveur:</h3>
+        <ul>
+            <li>socket</li>
+            <li>thread</li>
+            <li>pickle</li>
+        </ul>
+
+        <h2>Contenu</h2>
+        <hr>
+        <ul>
+            <li>/server.py    | Programme à exécuter : lance le serveur</li>
+            <li>/main.py 	  | Programme à exécuter : lance le jeu</li>
+            <li>/network.py   | Permet la liaison entre le serveur et le client</li>
+            <li>/Assets 	  | Dossier contenant les cartes pour les joueurs bleu et rouge.</li>
+            <li>/Other_assets | Dossier contenant les cartes de dos</li>
+            <li>/base.py 	  | Exécute le main loop pygame</li>
+            <li>/config.py    | Contient les paramètres globaux</li>
+            <li>/logic.py     | Créer un objet "board" avec des objets "cards" choisis aléatoirement</li>
+        </ul>
+
+        <h2>Règles du jeu et fonctionnement</h2>
+        <hr>
+        <h3>Règles du jeu</h3>
+        <p>
+            L'objectif du jeu est d'établir une "route" de votre camp au camp adverse. A chaque tour,
+            le nombre de routes que vous avez établi est rajouté au score.
+            Afin d'établir une route, vous devez utiliser les cartes sur le plateau en partant
+            de votre camp jusqu'au camp adverse.
+        </p>
+        <img src="https://i.imgur.com/JRnpShJ.png">
+
+        <h3>Fonctionnement</h3>
+        <p>
+            Les cartes sont composées de flèches qui indiquent la direction dans laquelle
+            le chemin peut être crée ainsi qu'un nombre qui indique la distance à laquelle le chemin peut aller.
+        </p>
+        <img src="https://i.imgur.com/jLvRvFV.png">
+        <p>
+
+            Dans cet exemple, la carte qui est tout à gauche peut accéder à la case qui est tout à droite car elle à
+            une distance de 2 et elle a une flèche qui va à droite. Par contre, elle ne peut pas accéder à
+            la case juste à côté avec le symbole infini car elle est à une distance de 1.
+        </p>
+        <img src="https://i.imgur.com/tClpd50.png">
+        <p>
+            Il existe des cases spéciales, comme les cases infini et les cases 1-2 et 1-3.
+            Les cases 1-2 et 1-3 ont comme leur nombre l'indique, une distance qui va de 1 à x.
+            Dans l'exemple en dessous, la carte du bas peut accéder aux deux cartes du haut car elle possède une
+            distance de 1 et de 2 ainsi que d'une direction qui va vers le haut.
+        </p>
+        <img src="https://i.imgur.com/nK9eGYp.png">
+        <p>
+
+            En pratique, il suffit de cliquer sur une première carte dans votre camp puis de cliquer sur une
+            deuxième carte qui est accessible, et ainsi de suite pour pouvoir établir une route.
+            Si il n'est pas possible de construire, cliquez autre part ou bien l'algorithme va automatiquement
+            rejetter la construction si il n'y a pas de case accessible ou si la carte sur laquelle vous avez
+            cliqué est invalide (par exemple cliquer sur une carte ennemie).
+
+            Vous pouvez voir ici qu'un chemin à été établi en passant par la flêche jaune.
+        </p>
+        <img src="https://i.imgur.com/TVoyKFk.png">
+        <h2>Cahier des charges</h2>
+        <hr>
+
+        <h3>Fonctionnalitées implémentées</h3>
+        <h4>Algorithmie/logique</h4>
+            <ul>
+                <li>Création de cartes sous la forme d'objets dont les paramètres sont tirés selon des probabilités grâce à numpy</li>
+                <li>Gestion de l'ajout d'une carte partant de la main du joueur au plateau</li>
+                <li>Ajout d'une carte dans la main du joueur lorsqu'une carte est posée sur le plateau</li>
+                <li>Création d'un algorithme de reconnaissance du chemin à un premier degré</li>
+            </ul>
+        <h4>Interface utilisateur</h4>
+            <ul>
+                <li>Ajout de score basé sur le nombre de routes établies</li>
+                <li>Les cartes dans la main de l'adversaire sont cachées</li>
+                <li>Affichage d'informations informant sur le statut du jeu en cours</li>
+                <li>Ajout d'un bouton "Tutoriel" qui renvoie vers le reposit github</li>
+            </ul>
+        <h4>Réseau</h4>
+            <ul>
+                <li>Création d'un réseau avec un serveur et deux clients</li>
+                <li>Gestion du plateau par le serveur</li>
+                <li>Fonction de "Reset" qui permet de créer une nouvelle partie sans relancer le serveur</li>
+                <li>Rotation de 180° pour le joueur 2 de son plateau afin d'assurer un affichage identique</li>
+            </ul>
+
+        <h3>Fonctionnalitées à rajouter</h3>
+        <h4>Algorithmie/logique</h4>
+            <ul>
+                <li>Ajout d'une intelligence artificielle aidée par le module de reconnaissance du chemin à prendre mais à plusieurs degrés</li>
+                <li>Ajuster les probabilités pour équilibrer le gameplay</li>
+                <li>Ajouter un timer identique aux échecs</li>
+            </ul>
+        <h4>Interface utilisateur</h4>
+        <ul>
+            <li>Ajouter une animation lorsque la souris passe au dessus d'une carte</li>
+            <li>Afficher les routes construises</li>
+            <li>Ajouter une animation lorsqu'une route est brisée</li>
+            <li>Ajouter une animation où une flèche suit la  création de route (cf dernier exmple)</li>
+            <li>Ajouter un menu</li>
+        </ul>
+        <h4>Réseau</h4>
+        <ul>
+            <li>Gérer automatiquement la création de lobby</li>
+        </ul>
+
+        <h2>Bugs</h2>
+        <hr>
+        <ul>
+            <li>Il est possible que le client ne se lance pas et affiche l'erreur suivante :<br>
+                <img src="img/main/6.png"><br>
+                Ce bug est dû au fait que le client n'a pas réussi à ce connecter au serveur : donc soit le serveur n'est pas ouvert, soit le serveur est ouvert mais le client n'a tout de même pas pu se connecter. Dans le deuxième cas, je n'ai pas trouvé de fix, cependant il suffit de patienter un peu et de relancer le serveur et le client. Si rien n'y change, changez le port du serveur et du client.
+            </li>
+            <li>Si vous tentez de créer une route en passant deux fois par votre camp, l'algorithme va rejeter la route. Ceci n'est pas un bug mais une fonctionnalité qui a été laissée exprès pour éviter de créer des chemins redondants.
+            </li>
+            <li>
+                Lorsque vous cliquez sur "Tutoriel", le lien est ouvert plusieurs fois. Cela est du au fait que le jeu tourne à 15fps, par conséquent la fonction est appelée plusieurs fois.
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    $(window).load(function() {
+        $(".loader").delay(2000).fadeOut("slow");
+        $("#overlayer").delay(2000).fadeOut("slow");
+    })
+</script>
+</body>
+<script src="js/script.js"></script>
+
+</html>
