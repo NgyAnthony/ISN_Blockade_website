@@ -62,7 +62,7 @@
             <button type="button" class="scroll_down" id="scroll_down"></button>
         </div>
     </div>
-    
+
     <div class="report" id="smooth_scroll">
         <h1>Rapport de développement de projet final - ISN 2019</h1>
         <h2>Crédits</h2>
@@ -202,30 +202,6 @@
             <li>Gérer automatiquement la création de lobby</li>
         </ul>
 
-        <h2>Historique du projet</h2>
-        <hr>
-        <p>Il y a deux mois, j'ai commencé le projet "Blockade" que j'avais trouvé à partir du subreddit r/gameideas
-        où des gens proposent leurs idées de jeu à développer. Je suis tombé sur le concept de jeu Blockade que
-        j'ai aimé pour son originalité. <img src="img/main/11.png"> </p> <br>
-        <p>J'ai ensuite pu avoir l'opportunité de collaborer avec u/elheber, designer, qui m'a fourni les assets
-        nécéssaires au développement du jeu et a répondu a mes questions.
-        <img src=" img/main/9.png">
-        <img src=" img/main/10.png"></p>
-
-        <h2>Bugs</h2>
-        <hr>
-        <ul>
-            <li>Il est possible que le client ne se lance pas et affiche l'erreur suivante :<br>
-                <img src="img/main/6.png"><br>
-                Ce bug est dû au fait que le client n'a pas réussi à ce connecter au serveur : donc soit le serveur n'est pas ouvert, soit le serveur est ouvert mais le client n'a tout de même pas pu se connecter. Dans le deuxième cas, je n'ai pas trouvé de fix, cependant il suffit de patienter un peu et de relancer le serveur et le client. Si rien n'y change, changez le port du serveur et du client.
-            </li>
-            <li>Si vous tentez de créer une route en passant deux fois par votre camp, l'algorithme va rejeter la route. Ceci n'est pas un bug mais une fonctionnalité qui a été laissée exprès pour éviter de créer des chemins redondants.
-            </li>
-            <li>
-                Lorsque vous cliquez sur "Tutoriel", le lien est ouvert plusieurs fois. Cela est du au fait que le jeu tourne à 15fps, par conséquent la fonction est appelée plusieurs fois.
-            </li>
-        </ul>
-
         <h2>Architecture logicielle</h2>
         <hr>
         <h3>Importation</h3>
@@ -240,16 +216,16 @@
 </code>
         </pre>
         <p>La classe Game est une subclass de Base: Game a donc accès à toutes les méthodes et attributs de la classe parente, Base.</p>
-<pre>
+        <pre>
 <code class="language-python">class Game(Base)</code>
 </pre>
         <p>On commence donc par initialliser la classe Base</p>
-<pre>
+        <pre>
 <code class="language-python">Base.__init__(self, config.SCREEN_TITLE, config.SCREEN_WIDTH, config.SCREEN_HEIGHT, config.FRAMERATE, config.SCREEN_FULLSCREEN)
 </code>
 </pre>
         <p>On va chercher dans le fichier "config" les paramètres requis pour initialiser Base, ici, ce principalement des variables liés aux dimensions.</p>
-<pre>
+        <pre>
 <code class="language-python">SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 800
     [...]
@@ -263,14 +239,14 @@ FRAMERATE = 15
         <h3>Threads & Sockets</h3>
 
         <p>Avant de charger nos fichiers, nous allons établir la connection entre le client et le serveur.
-        On utilise des sockets et threads pour établir la connection : une classe Network sert d'interface entre
-        le client et le serveur, c'est le thread. Il y a ainsi trois types de données qui seront communiquées entre
-        le serveur et le client :</p>
+            On utilise des sockets et threads pour établir la connection : une classe Network sert d'interface entre
+            le client et le serveur, c'est le thread. Il y a ainsi trois types de données qui seront communiquées entre
+            le serveur et le client :</p>
         <ul>
-        <li>Objet Config
-            <p>L'interaction principale entre le serveur et le client est l'échange d'objets Config,
-            chaque object contient les informations nécéssaires à l'affichage des cartes.</p>
-<pre>
+            <li>Objet Config
+                <p>L'interaction principale entre le serveur et le client est l'échange d'objets Config,
+                    chaque object contient les informations nécéssaires à l'affichage des cartes.</p>
+                <pre>
 <code class="language-python">
 class Config:
     def __init__(self, PLAYER, BOARD, TURN, REDSCORE, BLUESCORE):
@@ -281,15 +257,15 @@ class Config:
     self.BLUESCORE = BLUESCORE
 </code>
 </pre>
-        <p>Config est appelé lors de la première initialisation du serveur.</p>
-<pre>
+                <p>Config est appelé lors de la première initialisation du serveur.</p>
+                <pre>
 <code class="language-python">
     players = [Config("P1", board, random_player, 0, 0), Config("P2", board, random_player, 0, 0)]
 </code>
 </pre>
-            <p>Le serveur va recevoir les données du joueur 1 et va renvoyer à ce joueur les données de l'autre
-            joueur pour qu'il puisse mettre son board à jour.</p>
-<pre>
+                <p>Le serveur va recevoir les données du joueur 1 et va renvoyer à ce joueur les données de l'autre
+                    joueur pour qu'il puisse mettre son board à jour.</p>
+                <pre>
     <code class="language-python">
 def send(self, data):
     try:
@@ -312,11 +288,11 @@ def getP(self):
     return self.p
     </code>
 </pre>
-        <img src="img/main/config-config.png"> </li>
-        <li>Objet AskBoard
-            <p>AskBoard va envoyer une classe vide au serveur. Le serveur va alors vérifier le nom de la classe
-            et renvoyer au client son propre objet Config.</p>
-<pre>
+                <img src="img/main/config-config.png"> </li>
+            <li>Objet AskBoard
+                <p>AskBoard va envoyer une classe vide au serveur. Le serveur va alors vérifier le nom de la classe
+                    et renvoyer au client son propre objet Config.</p>
+                <pre>
     <code class="language-python">
 elif data.__class__.__name__ == "AskBoard":
     if player == 1:
@@ -330,11 +306,11 @@ elif data.__class__.__name__ == "AskBoard":
     conn.sendall(pickle.dumps(reply))
     </code>
 </pre>
-        <img src="img/main/config-askboard.png"></li>
-        <li>Objet ResetBoard
-            <p>ResetBoard fonctionne de la même manière que AskBoard, sauf que le serveur va tout réinitialliser et
-            renvoyer au client sa nouvelle config.</p>
-<pre>
+                <img src="img/main/config-askboard.png"></li>
+            <li>Objet ResetBoard
+                <p>ResetBoard fonctionne de la même manière que AskBoard, sauf que le serveur va tout réinitialliser et
+                    renvoyer au client sa nouvelle config.</p>
+                <pre>
     <code class="language-python">
 # On reçoit une classe qui à le nom ResetBoard, on réinitiallise tout
 elif data.__class__.__name__ == "ResetBoard":
@@ -357,15 +333,15 @@ elif data.__class__.__name__ == "ResetBoard":
     conn.sendall(pickle.dumps(reply))
     </code>
 </pre>
-        <img src="img/main/config-resetboard.png"></li>
+                <img src="img/main/config-resetboard.png"></li>
         </ul>
         <h3>Client</h3>
         <p>Une fois qu'une instance "Base" est initialisée, on va charger les fichiers image pour que Pygame puisse plus tard les afficher.
-        Cet algorithme va tout d'abord filtrer les fichiers indésirables qui se seraient par hasard retrouvés dans "Assets".
-        Ensuite, une boucle for va itérer dans une liste les chemins vers chaque image et refiltrer ces données brutes
-        pour qu'elles puissent être utilisées plus tard dans l'algorithme de distribution aléatoire.
-        Ces données sont pour le moment stockées dans un dictionnaire en tant que "id", ce dictionnaire est ensuite lui-même
-        ajouté à une liste.</p>
+            Cet algorithme va tout d'abord filtrer les fichiers indésirables qui se seraient par hasard retrouvés dans "Assets".
+            Ensuite, une boucle for va itérer dans une liste les chemins vers chaque image et refiltrer ces données brutes
+            pour qu'elles puissent être utilisées plus tard dans l'algorithme de distribution aléatoire.
+            Ces données sont pour le moment stockées dans un dictionnaire en tant que "id", ce dictionnaire est ensuite lui-même
+            ajouté à une liste.</p>
         <pre>
 <code class="language-python">
     self.DIRECTIONS_FILES = ("1.png", "1-2.png", "1-3.png", "2.png", "3.png", "4.png", "inf.png")
@@ -412,11 +388,11 @@ elif data.__class__.__name__ == "ResetBoard":
         <p><i>Diagramme 2: Fonctionnement de la fonction load_folders()</i></p>
         <p></p>
         <p>Une fois que les images sont chargées, on va déterminer si le client est le deuxième jour ou non.
-        Si le client est effectivement le deuxième joueur, la zone de jeu va effecture une rotation de 180° et va
-        itérer ses boucles for d'affichage en partant de la dernière colonne et ligne jusqu'à la première.</p>
+            Si le client est effectivement le deuxième joueur, la zone de jeu va effecture une rotation de 180° et va
+            itérer ses boucles for d'affichage en partant de la dernière colonne et ligne jusqu'à la première.</p>
         <img src="img/main/8.png">
         <p>On effectue ces changements pour que le client aie toujours son côté en bas de l'écran.</p>
-<pre>
+        <pre>
     <code class="language-python">
     def reverse_playingboard(self):
         """This function takes the playing board and reverse its x and y axis"""
@@ -430,11 +406,11 @@ elif data.__class__.__name__ == "ResetBoard":
         self.reversed_playingboard = [[],[],[],[],[],[]]
     </code>
 </pre>
-    <h3>Mécanisme de jeu</h3>
-    <p>Cette partie du code nous permet de déterminer le chemin qu'une carte peut prendre. Cependant, il s'agit d'un
-    algorithme qui ne trouve le chemin qu'au premier degré, c'est à dire qu'il ne peut pas trouver un chemin qui va
-    de la zone du joueur à la zone adverse. Seul le chemin qu'une seule carte peut emprunter est déterminable.</p>
-<pre>
+        <h3>Mécanisme de jeu</h3>
+        <p>Cette partie du code nous permet de déterminer le chemin qu'une carte peut prendre. Cependant, il s'agit d'un
+            algorithme qui ne trouve le chemin qu'au premier degré, c'est à dire qu'il ne peut pas trouver un chemin qui va
+            de la zone du joueur à la zone adverse. Seul le chemin qu'une seule carte peut emprunter est déterminable.</p>
+        <pre>
     <code class="language-python">
     def trace(self):
         """Find out the available path of each card"""
@@ -482,35 +458,35 @@ elif data.__class__.__name__ == "ResetBoard":
                                 self.check_ifin_board(coords_nb, col, row)
     </code>
 </pre>
-    <p>Dans cette fonction "trace" qui est la fonction principale de notre algorithme de recherche, chaque carte
-    sur le plateau de jeu est analysé par deux boucle for. On extrait la direction de l'objet carte qui est sous
-    forme de str.</p>
-<pre>
+        <p>Dans cette fonction "trace" qui est la fonction principale de notre algorithme de recherche, chaque carte
+            sur le plateau de jeu est analysé par deux boucle for. On extrait la direction de l'objet carte qui est sous
+            forme de str.</p>
+        <pre>
     <code class="language-python">
 self.directions = ("DtL-DtR", "DtL-DtR-DbR-DbL", "DtL-T-DtR", "DtL-T-DtR-R-DbR-B-DbL-L",
                    "L-R", "L-T-R", "L-T-R-B", "R-DbR-B-DbL-L", "T", "T-B")
     </code>
 </pre>
-    <p>Ce str va ensuite être séparé à chaque "-" et transformé en une liste pour donner au final par exemple:</p>
-<pre>
+        <p>Ce str va ensuite être séparé à chaque "-" et transformé en une liste pour donner au final par exemple:</p>
+        <pre>
     <code class="language-python">
         ['DtL', 'DtR', 'DbR', 'DbL']
     </code>
 </pre>
-    <p>Une fois qu'on a cette liste avec toutes les directions isolées, on va associer chaque direction individuelle
-    (symbolisée par une flèche dans le jeu) par une liste de coordonnées :</p>
-<pre>
+        <p>Une fois qu'on a cette liste avec toutes les directions isolées, on va associer chaque direction individuelle
+            (symbolisée par une flèche dans le jeu) par une liste de coordonnées :</p>
+        <pre>
     <code class="language-python">
 self.coordinates = ({"id": "DtL", "xy": (-1, -1)}, {"id": "DbL", "xy": (-1, 1)}, {"id": "DtR", "xy": (1, -1)},
                     {"id": "DbR", "xy": (1, 1)}, {"id": "T", "xy": (0, -1)}, {"id": "R", "xy": (1, 0)},
                     {"id": "B", "xy": (0, 1)}, {"id": "L", "xy": (-1, 0)})
     </code>
 </pre>
-    <p>On peut ainsi relever le déplacement x et y de la direction individuelle (attention, le déplacement n'est
-    pas sur un axe x et y classique mais est positionné sur une grille à la manière des deux boucles for indentées
-    qui accèdent à game_board avec des lignes et colonnes. Une fois les coordonées xy relevées, on peut alors
-    appeler une fonction qui va multiplier le nombre de portée de la carte avec les coordonnées xy.</p>
-<pre>
+        <p>On peut ainsi relever le déplacement x et y de la direction individuelle (attention, le déplacement n'est
+            pas sur un axe x et y classique mais est positionné sur une grille à la manière des deux boucles for indentées
+            qui accèdent à game_board avec des lignes et colonnes. Une fois les coordonées xy relevées, on peut alors
+            appeler une fonction qui va multiplier le nombre de portée de la carte avec les coordonnées xy.</p>
+        <pre>
     <code class="language-python">
 def calculate_coords(self, x, y, number):
     """Take the template coordinates and multiple it by the assigned number of the card."""
@@ -520,13 +496,13 @@ def calculate_coords(self, x, y, number):
     return coords_nb
     </code>
 </pre>
-    <p>On dira que la carte qui est cherchée par l'algorithme est la carte "cible" et que la carte qui a été cliquée (la source)
-        est la carte "tireuse". Il suffit alors d'ajouter la carte cible à une liste, cependant il faut prendre en compte la position de la
-    carte tireuse. Pour cela, on redéfinit les coordonnées x et y de la carte cible en rajoutant a x le nombre de colonnes de la carte tireuse
-    et a y le nombre de lignes pour atteindre la position de la carte tireuse. Ainsi, on définit de nouvelles coordonnées qui sont ajustées
-    à la position de la carte tireuse. On rajoute une condition pour que si la carte cible est en dehors de la zone de jeu, alors
-    elle n'est pas prise en compte</p>
-<pre>
+        <p>On dira que la carte qui est cherchée par l'algorithme est la carte "cible" et que la carte qui a été cliquée (la source)
+            est la carte "tireuse". Il suffit alors d'ajouter la carte cible à une liste, cependant il faut prendre en compte la position de la
+            carte tireuse. Pour cela, on redéfinit les coordonnées x et y de la carte cible en rajoutant a x le nombre de colonnes de la carte tireuse
+            et a y le nombre de lignes pour atteindre la position de la carte tireuse. Ainsi, on définit de nouvelles coordonnées qui sont ajustées
+            à la position de la carte tireuse. On rajoute une condition pour que si la carte cible est en dehors de la zone de jeu, alors
+            elle n'est pas prise en compte</p>
+        <pre>
     <code class="language-python">
 def check_ifin_board(self, coords_nb, col, row):
     """Set x and y position of the target card based on adjusted coordinates and col/row position of shooter card"""
@@ -548,6 +524,62 @@ def check_ifin_board(self, coords_nb, col, row):
             pass
     </code>
 </pre>
+        <h2>Historique du projet</h2>
+        <hr>
+        <p>Il y a deux mois, j'ai commencé le projet "Blockade" que j'avais trouvé à partir du subreddit r/gameideas
+        où des gens proposent leurs idées de jeu à développer. Je suis tombé sur le concept de jeu Blockade que
+        j'ai aimé pour son originalité. <img src="img/main/11.png"> </p> <br>
+        <p>J'ai ensuite pu avoir l'opportunité de collaborer avec u/elheber, designer, qui m'a fourni les assets
+        nécéssaires au développement du jeu et a répondu a mes questions.
+        <img src=" img/main/9.png">
+        <img src=" img/main/10.png"></p>
+        <h3>Les problèmes</h3>
+        <p>J'ai eu plusieurs problèmes lors du codage de ce projet.<br><br>
+
+        Tout d'abord, j'ai du apprendre à implémenter un modèle client-serveur sous python avec l'aide de threads et de
+        sockets. Il m'a fallut du temps pour comprendre comment la connection entre le serveur et le client était
+        constamment en train échanger des données.<br>J'ai également eu certains problèmes lorsque j'ai voulu transferer
+        des données au départ. En effet, j'ai tout d'abord essayé de transférer des données en format "str", mais
+        il s'est avéré qu'utiliser seulement des données "str" limitait le nombre de données que je pouvais envoyer à
+        chaque transfert : pour faire court, repasser tous mes attributs d'objets en str puis les envoyer puis ensuite
+        les réintégrer dans des objets était beaucoup trop fastidieux.<br>
+        Au lieu de ça, j'ai utilisé la librairie pickle qui permet de mettre des objets dans des containers pickle
+        et de les envoyer directement : c'est une solution qui est beaucoup plus simple ! En revanche, les packets
+        envoyés sont beaucoup plus gros : ce n'est pas un problème puisque mon jeu n'a pas besoin de transfert de
+        données rapides comme un MMO en aurait besoin.<br><br>
+
+        Mon deuxième problème concernait la fonction calculate_coords qui permet d'ajuster les cartes sur lesquels un
+        chemin peut être établi. Le soucis est que j'ai essayé d'intégrer une méthode mathématique non adaptée
+        à mon algorithme. J'ai tout d'abord raisonnée avec un axe x et y classique tel qu'on me l'a appris depuis
+        le collège. Sauf que dans mon algorithme, je raisonne en row et col, par conséquent certaines coordonnées sont
+        éronnées. Voilà un exemple simple la direction "bas(Bottom)" a sur un axe classique la coordonnée <code class="language-python"> x = 0</code>
+        et <code class="language-python"> y = -1</code>, cependant, dans un raisonnement en ligne et colonne, les
+        coordonnées sont <code class="language-python"> x= 0</code> et <code class="language-python"> y = 1</code> !
+        Tout simplement car pour aller en bas, la colonne passe de 0 à 1, il n'existe pas de colonne égale à -1.
+        C'est un bug très bête mais m'a coûté quelques heures.<br><br>
+
+        Mon dernier problème était sur la gestion de l'interface : pour pouvoir afficher les deux joueurs en bas,
+        il m'a fallut me creuser les méninges pour comprendre comment faire afficher le même tableau de jeu(game_board) mais dans un sens différent.
+        Je me suis alors posé plusieurs questions : dois-je créer un autre tableau de jeu qui serait une copie du tableau original
+        mais itérer dans le sens inverse ? Comment cela rendrait-il au niveau du serveur ? Car il faut envoyer une copie du game_board à
+        chaque joueur, mais il faut que tout soit dans le bon sens...<br>
+        Au final j'ai adapté pour une solution bien plus simple, c'est à dire de faire en sorte que si le client est identifié
+        comme le deuxième joueur, alors lors de l'affichage python la zone de jeu itérée dans le sens inverse.
+        </p>
+
+        <h2>Bugs</h2>
+        <hr>
+        <ul>
+            <li>Il est possible que le client ne se lance pas et affiche l'erreur suivante :<br>
+                <img src="img/main/6.png"><br>
+                Ce bug est dû au fait que le client n'a pas réussi à ce connecter au serveur : donc soit le serveur n'est pas ouvert, soit le serveur est ouvert mais le client n'a tout de même pas pu se connecter. Dans le deuxième cas, je n'ai pas trouvé de fix, cependant il suffit de patienter un peu et de relancer le serveur et le client. Si rien n'y change, changez le port du serveur et du client.
+            </li>
+            <li>Si vous tentez de créer une route en passant deux fois par votre camp, l'algorithme va rejeter la route. Ceci n'est pas un bug mais une fonctionnalité qui a été laissée exprès pour éviter de créer des chemins redondants.
+            </li>
+            <li>
+                Lorsque vous cliquez sur "Tutoriel", le lien est ouvert plusieurs fois. Cela est du au fait que le jeu tourne à 15fps, par conséquent la fonction est appelée plusieurs fois.
+            </li>
+        </ul>
     </div>
     </div>
 </div>
